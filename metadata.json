@@ -1,0 +1,12 @@
+{
+  "name": "Naul Chat Nicaragua",
+  "description": "Plataforma de mensajería de clase mundial con cifrado de extremo a extremo, perfiles verificados, llamadas seguras, audios de alta calidad, ubicación en tiempo real y conectividad social.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

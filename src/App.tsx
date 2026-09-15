@@ -39,6 +39,11 @@ import { Smartphone, Monitor, Sparkles } from 'lucide-react';
 
 export type MockupScreen = 'splash' | 'login' | 'register' | 'forgot' | 'inbox' | 'chat' | 'profile' | 'settings';
 
+const AUTH_EMAIL = 'normanescobar804@gmail.com';
+const AUTH_PASSWORD = 'Nicaragua2026!#';
+const AUTH_STORAGE_KEY = 'naul_auth_session';
+const AUTH_REMEMBER_KEY = 'naul_auth_remember';
+
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User>(() => {
     const saved = localStorage.getItem('naul_user_profile');
@@ -63,6 +68,15 @@ export default function App() {
   const [theme, setTheme] = useState<AppTheme>(() => {
     return (localStorage.getItem('naul_theme') as AppTheme) || 'nica-midnight';
   });
+  const [rememberMe, setRememberMe] = useState<boolean>(() => {
+    return localStorage.getItem(AUTH_REMEMBER_KEY) === 'true';
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    const shouldRemember = localStorage.getItem(AUTH_REMEMBER_KEY) === 'true';
+    const storage = shouldRemember ? localStorage : sessionStorage;
+    return storage.getItem(AUTH_STORAGE_KEY) === 'true';
+  });
+  const [loginError, setLoginError] = useState('');
 
   // Presentation mode: 'phone' (matches the exact mobile mockups) or 'desktop' (full screen split messenger)
   const [viewMode, setViewMode] = useState<'phone' | 'desktop'>('desktop');
@@ -156,6 +170,41 @@ export default function App() {
 
   const activeConversation = conversations.find(c => c.id === activeConversationId) || conversations[0];
   const activeMessages = messages[activeConversationId] || [];
+
+  const handleLogin = (email: string, password: string, shouldRemember: boolean) => {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (normalizedEmail !== AUTH_EMAIL.toLowerCase() || password !== AUTH_PASSWORD) {
+      setLoginError('Correo o contraseña incorrectos.');
+      return;
+    }
+
+    setRememberMe(shouldRemember);
+    localStorage.setItem(AUTH_REMEMBER_KEY, String(shouldRemember));
+
+    const storage = shouldRemember ? localStorage : sessionStorage;
+    storage.setItem(AUTH_STORAGE_KEY, 'true');
+
+    if (shouldRemember) {
+      sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    } else {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    }
+
+    setLoginError('');
+    setIsAuthenticated(true);
+    setActiveScreen('inbox');
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    localStorage.removeItem(AUTH_REMEMBER_KEY);
+    setRememberMe(false);
+    setLoginError('');
+    setActiveScreen('login');
+  };
 
   const handleSendMessage = (msgPayload: Partial<Message>) => {
     const messageId = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
@@ -370,10 +419,12 @@ export default function App() {
       case 'login':
         return (
           <LoginScreen
-            onLoginSuccess={() => setActiveScreen('inbox')}
+            onLoginSuccess={handleLogin}
             onGoToRegister={() => setActiveScreen('register')}
             onGoToForgotPassword={() => setActiveScreen('forgot')}
             onBackToSplash={() => setActiveScreen('splash')}
+            loginError={loginError}
+            defaultRememberMe={rememberMe}
           />
         );
       case 'register':
@@ -405,7 +456,7 @@ export default function App() {
         return (
           <SettingsScreen
             onBack={() => setActiveScreen('profile')}
-            onLogout={() => setActiveScreen('login')}
+            onLogout={handleLogout}
             onOpenEditProfile={() => setActiveScreen('profile')}
             onOpenChangePassword={() => setShowRecoveryModal(true)}
             onOpenPrivacy={() => setShowSecurityModal(true)}
@@ -476,6 +527,35 @@ export default function App() {
     : theme === 'dark'
     ? 'bg-slate-950 text-slate-100'
     : 'bg-slate-100 text-slate-900';
+
+  if (!isAuthenticated) {
+    return (
+      <div className="w-screen h-screen overflow-hidden bg-[#070d18] text-white">
+        {activeScreen === 'register' ? (
+          <RegisterScreen
+            onRegisterSuccess={(name, email) => {
+              setCurrentUser(prev => ({ ...prev, name, email }));
+              setLoginError('');
+              setActiveScreen('login');
+            }}
+            onBackToLogin={() => setActiveScreen('login')}
+          />
+        ) : activeScreen === 'forgot' ? (
+          <ForgotPasswordScreen
+            onBackToLogin={() => setActiveScreen('login')}
+          />
+        ) : (
+          <LoginScreen
+            onLoginSuccess={handleLogin}
+            onGoToRegister={() => setActiveScreen('register')}
+            onGoToForgotPassword={() => setActiveScreen('forgot')}
+            loginError={loginError}
+            defaultRememberMe={rememberMe}
+          />
+        )}
+      </div>
+    );
+  }
 
   return (
     <div id="naul-chat-root" className={`w-screen h-screen flex flex-col overflow-hidden font-sans ${themeClass}`}>

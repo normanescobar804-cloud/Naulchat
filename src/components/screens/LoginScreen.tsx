@@ -3,10 +3,12 @@ import { Mail, Lock, Eye, EyeOff, Check, ArrowLeft } from 'lucide-react';
 import { CnLogo } from '../CnLogo';
 
 interface LoginScreenProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (email: string, password: string, rememberMe: boolean) => void;
   onGoToRegister: () => void;
   onGoToForgotPassword: () => void;
   onBackToSplash?: () => void;
+  loginError?: string;
+  defaultRememberMe?: boolean;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
@@ -14,15 +16,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   onGoToRegister,
   onGoToForgotPassword,
   onBackToSplash,
+  loginError,
+  defaultRememberMe = true,
 }) => {
   const [email, setEmail] = useState('normanescobar804@gmail.com');
   const [password, setPassword] = useState('Nicaragua2026!#');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(defaultRememberMe);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onLoginSuccess();
+    onLoginSuccess(email, password, rememberMe);
   };
 
   return (
@@ -72,6 +76,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="w-full space-y-3.5">
+          {loginError && (
+            <div className="rounded-xl border border-red-500/50 bg-red-500/10 px-3 py-2 text-xs text-red-200">
+              {loginError}
+            </div>
+          )}
+
           {/* Email Input */}
           <div className="relative flex items-center">
             <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />

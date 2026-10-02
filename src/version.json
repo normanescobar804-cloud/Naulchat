@@ -1,0 +1,17 @@
+{
+  "version": "2.6.0",
+  "buildDate": "2026-10-02",
+  "buildTimestamp": 1790915425000,
+  "buildFormatted": "2 de Octubre, 2026",
+  "releaseName": "Edición Nicaragua Oficial",
+  "tag": "v2.6.0-prod",
+  "gitBranch": "main / gh-pages",
+  "environment": "Producción PWA",
+  "features": [
+    "E2EE Cifrado de Extremo a Extremo",
+    "Llamadas WebRTC y Video",
+    "Notas de Voz HD con Espectro",
+    "Historial y Visor de Comprobantes Banpro / LAFISE",
+    "PWA Offline & Sincronización"
+  ]
+}

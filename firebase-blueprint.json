@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Perfil público y datos de contacto de un usuario de Naul Chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "avatar": { "type": "string" },
+        "status": { "type": "string" },
+        "verified": { "type": "boolean" },
+        "online": { "type": "boolean" },
+        "lastSeen": { "type": "string" },
+        "publicKey": { "type": "string" },
+        "country": { "type": "string" },
+        "bubbleColors": { "type": "object", "description": "Preferencia de colores personalizados para globos de mensajes en ChatArea" },
+        "deletedContactIds": { "type": "array", "description": "Lista de IDs de contactos eliminados por el usuario para permitir su posterior restauración" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "phone"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Conversación o chat entre usuarios",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "participants": { "type": "array" },
+        "lastMessage": { "type": "string" },
+        "lastMessageTime": { "type": "string" },
+        "isDeleted": { "type": "boolean" },
+        "updatedAt": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "participants"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Mensaje enviado dentro de una conversación",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "status": { "type": "string" },
+        "type": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "encrypted": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "conversationId", "senderId", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Directorio de usuarios registrados de Naul Chat"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Conversaciones activas"
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Mensajes en tiempo real de una conversación"
+    }
+  }
+}

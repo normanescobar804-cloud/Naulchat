@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#0e2448" />
+      <stop offset="65%" stop-color="#071226" />
+      <stop offset="100%" stop-color="#030814" />
+    </radialGradient>
+    
+    <!-- Outer Rim Glow -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00a8ff" />
+      <stop offset="50%" stop-color="#0055d4" />
+      <stop offset="100%" stop-color="#002266" />
+    </linearGradient>
+
+    <!-- 3D C Gradients -->
+    <linearGradient id="cGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="70%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+
+    <!-- 3D N Gradients -->
+    <linearGradient id="nGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d2ff" />
+      <stop offset="45%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#003cd6" />
+    </linearGradient>
+
+    <!-- Chat Bubble Gradient -->
+    <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00b4d8" />
+      <stop offset="100%" stop-color="#0077b6" />
+    </linearGradient>
+
+    <!-- Shadow filter -->
+    <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base with Border -->
+  <rect x="8" y="8" width="496" height="496" rx="108" fill="url(#bgGlow)" stroke="url(#rimGrad)" stroke-width="8" />
+  
+  <!-- Top Specular Gloss Arc -->
+  <path d="M 40 120 C 40 80, 80 40, 120 40 L 392 40 C 432 40, 472 80, 472 120 C 472 170, 380 200, 256 200 C 132 200, 40 170, 40 120 Z" fill="#ffffff" opacity="0.06" />
+
+  <g filter="url(#shadow3d)">
+    <!-- 3D Letter 'C' -->
+    <path d="M 235 155 C 215 130, 185 120, 150 120 C 95 120, 55 162, 55 220 C 55 278, 95 320, 150 320 C 185 320, 215 310, 235 285 L 210 252 C 195 270, 175 278, 150 278 C 120 278, 98 252, 98 220 C 98 188, 120 162, 150 162 C 175 162, 195 170, 210 188 Z" fill="url(#cGrad)" />
+
+    <!-- Chat Bubble inside C -->
+    <g transform="translate(115, 180)">
+      <rect x="0" y="0" width="70" height="52" rx="26" fill="url(#bubbleGrad)" />
+      <path d="M 12 42 L 5 56 L 24 50 Z" fill="url(#bubbleGrad)" />
+      <!-- Dots -->
+      <circle cx="23" cy="26" r="4.5" fill="#ffffff" />
+      <circle cx="35" cy="26" r="4.5" fill="#ffffff" />
+      <circle cx="47" cy="26" r="4.5" fill="#ffffff" />
+    </g>
+
+    <!-- 3D Letter 'N' -->
+    <path d="M 245 125 L 285 125 L 365 245 L 365 125 L 410 125 L 410 315 L 370 315 L 290 195 L 290 315 L 245 315 Z" fill="url(#nGrad)" />
+
+    <!-- Waving Nicaragua Flag on 'N' -->
+    <g transform="translate(325, 95) rotate(-8)">
+      <path d="M 0 0 Q 30 -8, 60 0 Q 90 8, 120 0 L 120 40 Q 90 48, 60 40 Q 30 32, 0 40 Z" fill="#0067c6" />
+      <path d="M 0 13 Q 30 5, 60 13 Q 90 21, 120 13 L 120 27 Q 90 35, 60 27 Q 30 19, 0 27 Z" fill="#ffffff" />
+      <!-- Small Triangle Emblem -->
+      <polygon points="60,16 54,25 66,25" fill="#eab308" stroke="#0067c6" stroke-width="0.5" />
+    </g>
+  </g>
+
+  <!-- Typography "Naual Chat" -->
+  <g text-anchor="middle">
+    <text x="256" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="44" letter-spacing="-1">
+      <tspan fill="#ffffff">Naual </tspan>
+      <tspan fill="#00d2ff">Chat</tspan>
+    </text>
+
+    <!-- Horizontal Divider with "Nicaragua" -->
+    <line x1="75" y1="415" x2="165" y2="415" stroke="#00a8ff" stroke-width="2" stroke-linecap="round" />
+    <text x="256" y="422" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="20" letter-spacing="2">NICARAGUA</text>
+    <line x1="347" y1="415" x2="437" y2="415" stroke="#00a8ff" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Subtitle: "Chat privado, rápido y seguro" -->
+    <text x="256" y="458" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="15" letter-spacing="0.5">Chat privado, rápido y seguro</text>
+  </g>
+</svg>
